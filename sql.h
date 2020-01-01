@@ -5,4 +5,7 @@
 
 MYSQL sql;
 
+void sql_init(void);
+void find(char *target, char *now);
+
 #endif

@@ -11,14 +11,24 @@ void clear_input_buffer()
         ;
 }
 
+int Locate(adj_matrix *G, char *name)
+{
+    for (int i = 1; i <= G->vexnum; i++) {
+        if (!strcmp(G->vex[i].name, name)) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 void create_gragh(adj_matrix *G)
 {
-    char vexnum[][50] = {{}, {"北门"}, {"水煮鸽子"}, {"基础教学楼"}, {"实验楼"}, {"图书馆"}, {"美广"}, {"西区宿舍"}, {"旭日大酒楼"}, {"操场"}, {"东门"}, {"天桥"}, {"西门"}, {"东区教学楼"}, {"东升苑"}, {"东区宿舍"}};  
+    char vexnum[][50] = {{}, {"北门"}, {"水煮鸽子"}, {"基础教学楼"}, {"实验楼"}, {"图书馆"}, {"美广"}, {"西区宿舍"}, {"旭日大酒楼"}, {"操场"}, {"东门"}, {"天桥"}, {"西门"}, {"东区教学楼"}, {"东升小破餐厅"}, {"东区宿舍"}};  
     char edges[][2][50]={{},
     {{"北门"},{"基础教学楼"}}, {{"北门"},{"水煮鸽子"}}, {{"北门"},{"西门"}}, {{"基础教学楼"},{"水煮鸽子"}}, {{"实验楼"},{"基础教学楼"}}, {{"实验楼"},{"水煮鸽子"}},
     {{"图书馆"},{"水煮鸽子"}}, {{"实验楼"},{"图书馆"}}, {{"实验楼"},{"美食广场"}}, {{"图书馆"},{"美食广场"}}, {{"图书馆"},{"东门"}}, {{"图书馆"},{"操场"}},
-    {{"东门"},{"操场"}}, {{"西区宿舍"},{"美食广场"}}, {{"图书馆"},{"旭日苑"}}, {{"操场"},{"旭日苑"}}, {{"西区宿舍"},{"旭日苑"}}, {{"西门"},{"天桥"}}, {{"东升苑"},{"天桥"}},
-    {{"东区宿舍"},{"天桥"}}, {{"东区宿舍"},{"东升苑"}}, {{"东区教学楼"},{"东升苑"}}, {{"东区教学楼"},{"东区宿舍"}}, {{"西门"},{"东区教学楼"}}, {{"东门"},{"天桥"}}}; 
+    {{"东门"},{"操场"}}, {{"西区宿舍"},{"美食广场"}}, {{"图书馆"},{"旭日大酒楼"}}, {{"操场"},{"旭日大酒楼"}}, {{"西区宿舍"},{"旭日大酒楼"}}, {{"西门"},{"天桥"}}, {{"东升苑"},{"天桥"}},
+    {{"东区宿舍"},{"天桥"}}, {{"东区宿舍"},{"东升小破餐厅"}}, {{"东区教学楼"},{"东升小破餐厅"}}, {{"东区教学楼"},{"东区宿舍"}}, {{"西门"},{"东区教学楼"}}, {{"东门"},{"天桥"}}}; 
     int weights[] = {0, 210, 129, 425, 109, 272, 228, 290, 145, 372, 364, 372, 201, 255, 133, 132, 359, 153, 451, 167, 317, 140, 24, 106};
     G->vexnum = 15;
     G->arcnum = 25;
@@ -32,12 +42,48 @@ void create_gragh(adj_matrix *G)
         G->vex[i].no = i;
         strcpy(G->vex[i].name, vexnum[i]);
     }
-    for ()
+    int i, j;
+    for (int k = 1; k <= G->arcnum; k++) {
+        strcpy(name1, edges[k][0]);
+        strcpy(name2, edges[k][1]);
+        i = Locate(G, name1);
+        j = Locate(G, name2);
+        G->arcs[i][j] = weights[k];
+        G->arcs[j][i] = weights[k];
+    }
+    printf("地图初始化成功");
+}
+
+ma_status_t ask_directions()
+{
+    printf("\t\t\t\t\t\t~            1.所有路径          ~\n");//深搜
+    printf("\t\t\t\t\t\t~            2.最短路径          ~\n");//地杰斯特拉
+    int op = 0;
+    scanf("%d", &op);
+    if (op == 1) {
+
+    } else if (op == 2) {
+
+    }
+    return INIT;
+}
+
+ma_status_t print_mess()
+{
+    char target_place[50];
+    printf("\t\t\t\t\t\t查询地点: ");
+    scanf("%s", target_place);
+    printf("\n");
+    char now_place[50];
+    printf("\t\t\t\t\t\t当前位置：");
+    scanf("%s", now_place);
+    find(target_place, now_place);
+    return INIT;
 }
 
 ma_status_t print_map()
 {
-    system("clear");
+    //system("clear");
     printf("\t\t\t ---------------------------【北门】--------------------     ----------------------------------\n");
     printf("\t\t\t|                             |  |                     |    |                                  |\n");
     printf("\t\t\t|           ------------------   |                     |    |                                  |\n");
@@ -86,7 +132,7 @@ ma_status_t print_map()
 
 ma_status_t init_main_menu()
 {
-    system("clear");
+    //system("clear");
     printf("\t\t\t\t\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("\t\t\t\t\t\t~            欢迎使用西邮导航          ~\n");
     printf("\t\t\t\t\t\t~            1.校园平面图              ~\n");
@@ -128,7 +174,12 @@ void show_main_menu()
         case ONE:                    
             status = print_map();
             break;                    
-
+        case TOW:
+            status = print_mess();
+            break;
+        case THREE:
+            status = ask_directions();
+            break;
         case EXIT:
             break;
         default :

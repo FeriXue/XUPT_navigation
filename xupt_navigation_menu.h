@@ -31,6 +31,8 @@ void init();
 void show_main_menu();
 ma_status_t print_map();
 void create_gragh(adj_matrix *G);
+ma_status_t print_mess();
+ma_status_t ask_directions();
 
 
 

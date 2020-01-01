@@ -1,8 +1,9 @@
 #include "xupt_navigation_menu.h"
+#include "sql.h"
 
 int main()
 {
-    //init();
+    sql_init();
     show_main_menu();
     return 0;
 }
