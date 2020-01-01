@@ -4,6 +4,8 @@
 int main()
 {
     sql_init();
-    show_main_menu();
+    adj_matrix *G = (adj_matrix *)malloc(sizeof(adj_matrix));
+    create_gragh(G);
+    show_main_menu(G);
     return 0;
 }

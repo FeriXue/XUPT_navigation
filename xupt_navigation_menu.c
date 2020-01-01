@@ -1,4 +1,5 @@
 #include "xupt_navigation_menu.h"
+#include "stack_list.h"
 #include "sql.h"
 
 #include <stdio.h>
@@ -52,21 +53,65 @@ void create_gragh(adj_matrix *G)
         G->arcs[j][i] = weights[k];
     }
     printf("地图初始化成功");
+    /*for (int i = 1; i <= G->vexnum; i++) {
+        printf("\n");
+        for (int j = 1; j <= G->vexnum; j++) {
+            printf("\t%d", G->arcs[i][j]);
+        }
+        printf("\n");
+    }*/
 }
 
-ma_status_t ask_directions()
+void dfs(adj_matrix *G, int *visited, char *place_a, char *place_b, int p_a, Stack S)
 {
-    printf("\t\t\t\t\t\t~            1.所有路径          ~\n");//深搜
-    printf("\t\t\t\t\t\t~            2.最短路径          ~\n");//地杰斯特拉
+
+}
+
+void ready_for_dfs(adj_matrix *G, char *place_a, char *place_b)
+{
+    int visited[G->vexnum+1];
+    for (int i = 1; i <= G->vexnum; i++) {
+        visited[i] = 0;
+    }
+    int p_a = -2, p_b = -2;
+    for (int i = 1; i <= G->vexnum; i++) {
+        if (!strcmp(place_a, G->vex[i].name)) {
+            p_a = G->vex[i].no;                
+        }                                      
+        if (!strcmp(place_b, G->vex[i].name)) {
+            p_b = G->vex[i].no;
+        }
+    }
+    visited[p_b] = -1;
+    Stack S = CreateStack();
+    Push(p_a, S);
+    for (int i = 1; i <= G->vexnum; i++) {
+        if (visited[i] == 0) {
+            dfs(G, visited, place_a, place_b, p_a, S);
+        }
+    }
+}
+
+ma_status_t ask_directions(adj_matrix *G)
+{
+    char place_a[50], place_b[50];
+    printf("\t\t\t\t\t\t~            1.所有路径          ~\n");//深搜将中转次数最少的路径标出来
+    printf("\t\t\t\t\t\t~            2.最佳访问路线          ~\n");//地杰斯特拉
     int op = 0;
     scanf("%d", &op);
+    printf("\n\t\t\t\t\t\t出发地：\t");
+    scanf("%s", place_a);
+    printf("\n\t\t\t\t\t\t目的地：\t");
+    scanf("%s", place_b);
     if (op == 1) {
-
+        ready_for_dfs(G, place_a, place_b);
     } else if (op == 2) {
 
     }
     return INIT;
 }
+
+//ma_status_t prim();
 
 ma_status_t print_mess()
 {
@@ -163,7 +208,7 @@ ma_status_t init_main_menu()
     return INIT;
 }
 
-void show_main_menu()
+void show_main_menu(adj_matrix *G)
 {
     ma_status_t status = INIT;
     while (status != EXIT) {
@@ -178,8 +223,11 @@ void show_main_menu()
             status = print_mess();
             break;
         case THREE:
-            status = ask_directions();
+            status = ask_directions(G);
             break;
+        //case FOUR:                   
+          //  status = prim();
+            //break;                    
         case EXIT:
             break;
         default :

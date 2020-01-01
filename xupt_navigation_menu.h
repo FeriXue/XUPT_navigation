@@ -4,6 +4,8 @@
 #define MAX_NUM 50
 #define INIT_NUM -1
 
+#include "stack_list.h"
+
 typedef enum ma_status {
     INIT = 1,
     ONE,
@@ -28,11 +30,14 @@ typedef struct {
 } adj_matrix;
 
 void init();
-void show_main_menu();
+void show_main_menu(adj_matrix *G);
 ma_status_t print_map();
 void create_gragh(adj_matrix *G);
 ma_status_t print_mess();
-ma_status_t ask_directions();
+ma_status_t ask_directions(adj_matrix *G);
+void ready_for_dfs(adj_matrix *G, char *place_a, char *place_b);
+void dfs(adj_matrix *G, int *visited, char *place_a, char *place_b, int p_a, Stack S);
+ma_status_t prim();
 
 
 
