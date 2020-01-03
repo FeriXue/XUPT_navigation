@@ -1,4 +1,5 @@
 #include "sql.h"
+#include "xupt_navigation_menu.h"
 
 #include <mysql/mysql.h>
 #include <stdio.h>
@@ -31,5 +32,6 @@ void find(char *target, char *now)
     mysql_query(&sql, buffer);
     MYSQL_RES *result = mysql_store_result(&sql);
     MYSQL_ROW row = mysql_fetch_row(result);
-    printf("<<%s>>距离您当前位置<<%s>>距离为<%sm>, \n目标地点简介：%s\n", row[0], row[1], row[2], row[3]);
+    printf("\t\t\t\t\t\t<<%s>>距离您当前位置<<%s>>距离为<%sm>.\n\t\t\t\t\t\t目标地点简介：%s\n", row[0], row[1], row[2], row[3]);
+    clear_input_buffer();
 }

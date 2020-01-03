@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-struct Node {
+/*struct Node {
     int Element;
     PtrNode Next;
-} ;
+} ;*/
 
 void FeriError(const char *string)
 {                                 
